@@ -1,0 +1,23 @@
+{
+    "exposure": 20,
+    "contrast": 0,
+    "framerate": 30,
+    "width": 640,
+    "height": 480,
+    "x_coordinates": [
+        -12.2,
+        -12.2
+    ],
+    "y_coordinates": [
+        -1,
+        6.6
+    ],
+    "z_coordinates": [
+        0,
+        0
+    ],
+    "labels": [
+        "A1 ",
+        "A2 "
+    ]
+}

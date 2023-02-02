@@ -1,0 +1,9 @@
+{
+	"reduction_factor": 0.90,
+	"compress_cores": 6,
+	"camera_platform":"picamera",
+	"exposure": 30,
+	"framerate": 15,
+	"emails": "on"
+}
+
