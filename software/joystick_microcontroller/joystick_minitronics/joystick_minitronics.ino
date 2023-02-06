@@ -20,7 +20,6 @@ float y_float = 0;
 
 char out = ' ';
 
-
 // Time delay for joystick signals
 int dt = 15;
 
@@ -43,10 +42,6 @@ void setup() {
   pinMode(buttonPinUp, INPUT);
   pinMode(buttonPinDn, INPUT);
 
-  //  Serial.println("$120 = 500.000"); //(x accel, mm/sec^2)
-  //  Serial.println("$121 = 500.000"); //(y accel, mm/sec^2)
-  //  Serial.println("$100 = 200"); // X steps/mm
-  //  Serial.println("$101 = 200"); // Y steps/mm
   // Get zero position of joystick - note that the joystick needs to be centred
   zero_x_val = analogRead(X); // read X
   zero_y_val = analogRead(Y); // read Y
@@ -65,22 +60,8 @@ void loop() {
   x_val = analogRead(X);
   y_val = analogRead(Y);
 
-  //Serial.println(x_val);
-  //Serial.println(y_val);
-
   x_float = x_val / zero_x_val; // read X
   y_float = y_val / zero_y_val; // read Y
-
-  //Serial.println(x_float);
-  //Serial.println(y_float);
-  // Debug
-  //  Serial.println(x_float);
-  //  Serial.println(y_float);
-  //  To avoid errors in signals,the below were added to each statement as appropriate:
-  //  "&& y_float <= 1.2 && y_float >= 0.8"
-  //  "&& x_float <= 1.2 && x_float >= 0.8"
-
-
   if (x_float < 1.35 && x_float > 1.2 && y_float <= 1.2 && y_float >= 0.8) {
     Serial.println("G0X0.02F10");
     delay(dt);
@@ -212,11 +193,5 @@ void loop() {
     delay(dt);
   }
 
-  //If no buttons pressed do nothing.
-  //else
-  //{
-  //  Serial.println("Hold");
-  //}
-  //delay(50);
 
 }
