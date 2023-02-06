@@ -1,4 +1,5 @@
 // Joystick
+// Pin 2 of X and Y connected to A0 and A1 respectively. Pin 1 connected to 5V, and Pin 3 connected to ground.
 int Y = A0;
 int X = A1;
 
@@ -25,6 +26,7 @@ int dt = 15;
 
 
 // Z buttons
+// Pin 2 of Z up and Z down connected to A0 and A1 respectively, Pin 1 connected to ground.
 //  Set pin numbers for the two push buttons
 const int buttonPinUp = 2;     // the number of the pushbutton pin for Z up
 const int buttonPinDn = 3;    // push button pin for Z down
