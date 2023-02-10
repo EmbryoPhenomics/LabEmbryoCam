@@ -42,7 +42,7 @@ def app_layout():
 
     html.Div(className='row', children=[
         html.Div(className='two columns', children=[
-            html.H1(children='  LabEP', style={'display': 'inline-block', 'height': '20px'}),
+            html.H1(children='  LabEmbryoCam', style={'display': 'inline-block', 'height': '20px'}),
             html.Img(src='./assets/img/embryophenomicslogo.png', style={'display': 'inline-block', 'height': '60px'}),
         ]),
         html.Div(className='eight columns', children=[
