@@ -42,8 +42,8 @@ def app_layout():
 
     html.Div(className='row', children=[
         html.Div(className='two columns', children=[
-            html.H1(children='  LabEmbryoCam', style={'display': 'inline-block', 'height': '20px'}),
-            html.Img(src='./assets/img/embryophenomicslogo.png', style={'display': 'inline-block', 'height': '60px'}),
+            html.H1(children='  LabEmbryoCam', style={'display': 'inline-block', 'height': '0px'}),
+            html.Img(src='./assets/img/embryophenomicslogo.png', style={'display': 'inline-block', 'height': '150px'}),
         ]),
         html.Div(className='eight columns', children=[
             html.Br(), # forces columns to be created
