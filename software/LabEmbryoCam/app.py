@@ -504,13 +504,13 @@ def send_email(email_cls, timepoint, data, paths):
                 outfiles.append(new_file)
 
             text = f"""\
-            LabEP update: Timepoint {timepoint}:
+            LabEmbryoCam update: Timepoint {timepoint}:
 
             No. of embryos imaged: {len(paths)}
 
             See attached files for still images of embryos at this timepoint."""
 
-            email.send(f'LabEP update: timepoint {timepoint}', text, outfiles)
+            email.send(f'LabEmbryoCam update: timepoint {timepoint}', text, outfiles)
 
             for file in outfiles:
                 os.remove(file)
