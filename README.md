@@ -1,6 +1,4 @@
-# LabEmbryoCam
-
-![LEC_logo](https://user-images.githubusercontent.com/8396231/221187534-4331a25a-d817-4df4-9c2d-2449fbe23acf.png)
+![LEC_logo ](https://user-images.githubusercontent.com/8396231/221187735-c88f5a90-c255-41ad-97ed-affd3d2ac26c.png)
 
 An opensource hardware and software platform for phenotyping aquatic embryos.
 
