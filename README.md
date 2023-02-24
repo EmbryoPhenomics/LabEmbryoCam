@@ -9,5 +9,7 @@ Organisms are dyanmic, particularly during early life, and tools such as the Lab
 Development of the LabEmbryoCam is made possible thanks to funding from UK Resarch Innovation, Natural Environment Research Council and Biotechnology and Biological Sciences Research Council funding.
 
 www.embryophenomics.org
+
 www.github.com/embryophenomics
+
 www.vimeo.com/communities/embryophenomics
