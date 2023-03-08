@@ -123,7 +123,7 @@ RPi uses a microHDMI, so an adapter (included in the bill of materials is attach
 
 The Raspberry Pi is powered by the 5 V power supply from the ATX splitter, connected to a USB-C cable. This can be made by simply cutting a USB-C cable, stripping the 5V and earth cables and connecting these to the ATX 5V outputs.
 
-.. figure:: ../static/electronics_schematic.png
+.. figure:: ../_static/electronics_schematic.png
   :width: 750
 
 
