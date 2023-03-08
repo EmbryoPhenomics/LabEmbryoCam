@@ -39,8 +39,8 @@ void setup() {
   Serial.begin(115200); // setup serial
   Serial.println("joystick");
   delay(100);
-  pinMode(buttonPinUp, INPUT);
-  pinMode(buttonPinDn, INPUT);
+  pinMode(buttonPinUp, INPUT_PULLUP);
+  pinMode(buttonPinDn, INPUT_PULLUP);
 
   // Get zero position of joystick - note that the joystick needs to be centred
   zero_x_val = analogRead(X); // read X
