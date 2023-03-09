@@ -6,6 +6,7 @@ from multiprocessing import Process
 import threading
 from time import sleep
 import re
+import numpy as np
 
 # Soft limits
 #x1 = -2
@@ -39,9 +40,9 @@ def gen_xy_old(xy1, xWells, yWells):
     positions = []
     for i in range(yWells):
         for j in range(xWells):
-            x = (j*well_dist) + xy1[0]
-            y = (-i*well_dist) + xy1[1]
-            z = xy1[2]
+            x = round((j*well_dist) + xy1[0], 2)
+            y = round((-i*well_dist) + xy1[1], 2)
+            z = round(np.random.random(), 2)
             labels = yLabs[i]+str(j+1)
             positions.append((x,y,z,labels))
 

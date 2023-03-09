@@ -27,7 +27,7 @@ import smtplib
 import datetime
 from dash.long_callback import DiskcacheLongCallbackManager
 import dash_bootstrap_components as dbc
-import datetime
+import pwd
 
 ## Diskcache
 import diskcache
@@ -41,7 +41,7 @@ import renderers
 import emails
 import leds
 import xyz
-import embryocv
+
 
 # Simple low-level functions 
 def all(iterable, obj):
@@ -128,6 +128,17 @@ def gen(camera):
 # class UserInputStore:
 #     def __init__(self):
         
+# Acquisition state for disabling other components whilst acquisition is running
+class AcquisitionState:
+    def __init__(self):
+        self.running = False
+
+    def started(self):
+        self.running = True
+
+    def finished(self):
+        self.running = False
+
 # Camera state for remote-view
 class CameraState:
     def __init__(self):
@@ -196,13 +207,13 @@ resolution_presets = {
 light_port, joystick_port, xyz_port = check_devices()
 
 camera_state = CameraState()
-email = emails.Emails()
 experimental_log = ExperimentJobLog()
 hardware = xyz.StageHardware(xyz_port, joystick_port)
 coord_data = xyz.Coordinates()
 leds = leds.HardwareBrightness(light_port)
 camera = Camera(benchmark=True)
 loaded_camera_settings = CameraConfigLoad() 
+acquisition_state = AcquisitionState()
 
 # external_stylesheets = ['./assets/app.css']
 server = Flask(__name__)
@@ -212,7 +223,7 @@ app.layout = layout.app_layout()
 # app.css.append_css({'external_url': 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'})
 
 # For callbacks where no return is needed
-trigger = '.'
+trigger = ''
 
 # =============================================================================================== #
 # ------------------------------------ Acquire tab callbacks ------------------------------------ #
@@ -221,15 +232,24 @@ trigger = '.'
 with open('./app_config.json', 'r') as conf:
     app_conf = json.load(conf)
     cam_type = app_conf['camera_platform']
+    emails_on = app_conf['emails']
+
+email = emails.Emails()
+if emails_on == 'on':
+    email.login(app_conf['email_username'], app_conf['email_password'])
+    timelib.sleep(1)
+email.close()
 
 camera.startup(cam_type)
 
-# ============================================================= #
 # ------------------ Html rendering callbacks ----------------- #
 # ============================================================= #
 
 @app.callback(
-    output=Output('brightness-control', 'children'),
+    output=[
+        Output('exposure', 'value'),
+        Output('contrast', 'value'),
+    ],
     inputs=[
         Input('connect-cam-callback', 'children'),
         Input('loaded-data-callback', 'children')
@@ -238,12 +258,10 @@ def update_brightness_ui(cam_init, loaded_data):
     if trigger not in [loaded_data]:
         exposure = camera.get('exposure') / 1000 # For ms on pi
         contrast = camera.get('contrast')
-        return renderers.render_brightness_ui(data=dict(exposure=exposure, contrast=contrast))
     else:
-        data = dict(
-            exposure=loaded_camera_settings.exposure / 1000, # For ms on pi
-            contrast=loaded_camera_settings.contrast)
-        return renderers.render_brightness_ui(data)
+        exposure = loaded_camera_settings.exposure / 1000 # For ms on pi
+        contrast = loaded_camera_settings.contrast
+    return exposure, contrast
 
 @app.callback(
     output=[
@@ -265,7 +283,7 @@ def update_resolution_ui(cam_init, loaded_data):
         return width, False
 
 @app.callback(
-    output=Output('fps-control', 'children'),
+    output=Output('fps', 'value'),
     inputs=[
         Input('connect-cam-callback', 'children'),
         Input('loaded-data-callback', 'children')
@@ -273,10 +291,9 @@ def update_resolution_ui(cam_init, loaded_data):
 def update_fps_ui(cam_init, loaded_data):
     if trigger not in [loaded_data]:
         fps = camera.get('framerate')
-        return renderers.render_fps_ui(data=dict(framerate=fps))
     else:
-        data = dict(framerate=loaded_camera_settings.framerate)
-        return renderers.render_fps_ui(data)   
+        fps = loaded_camera_settings.framerate
+    return fps  
 
 
 # ============================================================= #
@@ -288,26 +305,6 @@ def update_fps_ui(cam_init, loaded_data):
     inputs=[Input('hardware-brightness', 'value')])
 def update_hardware_brightness(value):
     leds.set(value)
-
-@app.callback(
-    output=Output('login-callback', 'children'),
-    inputs=[Input('email-login', 'n_clicks')],
-    state=[
-        State('email-username', 'value'),
-        State('email-password', 'value')
-    ])
-def login_email(n_clicks, username, password):
-    if n_clicks:
-        if username and password:
-            try:
-                email.login(username, password)
-            except Exception as e:
-                return e
-            finally:
-                email.close() # Close so we can start new servers in separate processes 
-                               # for acquisitions below
-    else:
-        return dash.no_update
 
 @app.callback(
     output=Output('hidden-update-callback', 'children'),
@@ -334,8 +331,6 @@ def update_camera_settings(n_clicks, cam_init, exposure, contrast, resolution, f
     else:
         return dash.no_update
 
-
-
 @server.route('/video_feed')
 def video_feed():
     return Response(gen(camera),
@@ -361,6 +356,8 @@ def update_still_image(n_clicks, cam_init):
     if n_clicks is None:
         return dash.no_update
     else:
+        if camera_state.trigger and camera_state.state == 'streaming':
+            camera_state.on_off('streaming')
         camera_state.on_off('snapshot')
 
 @app.callback(
@@ -371,16 +368,35 @@ def update_well_number(data):
     return len(x)
 
 @app.callback(
+    output=Output('drive-select', 'options'),
+    inputs=[Input('drive-refresh', 'n_clicks')]
+)
+def update_drive_select(n_clicks):
+    user = pwd.getpwuid(os.getuid()).pw_name
+    external_dir = os.path.join('/media', user)
+    disks = os.listdir(external_dir)
+    return [dict(label=d, value=d) for d in disks]
+
+@app.callback(
     output=Output('acquire-outpath-check', 'children'),
-    inputs=[Input('acquire-path-input', 'value')])
-def check_acquire_path(path):
+    inputs=[
+        Input('acquire-path-input', 'value'),
+        Input('drive-select', 'value')])
+def check_acquire_path(path, drive):
     if path:
-        if not os.path.isdir(path):
-            return 'Specified path is not to a directory.'
+        if drive:
+            user = pwd.getpwuid(os.getuid()).pw_name
+            external_dir = os.path.join('/media', user)
+            folder = os.path.join(external_dir, drive, path)
+
+            if os.path.exists(folder):
+                return 'Folder already exists. Please name a new one.'
+            else:
+                return trigger
         else:
-            return ''
+            return trigger
     else:
-        return ''
+        return trigger
 
 # ============================================================= #
 # ------------------ Config load/save callbacks --------------- #
@@ -504,43 +520,18 @@ def send_email(email_cls, timepoint, data, paths):
                 outfiles.append(new_file)
 
             text = f"""\
-            LabEmbryoCam update: Timepoint {timepoint}:
+            LabEP update: Timepoint {timepoint}
 
             No. of embryos imaged: {len(paths)}
 
             See attached files for still images of embryos at this timepoint."""
 
-            email.send(f'LabEmbryoCam update: timepoint {timepoint}', text, outfiles)
+            email.send(f'LabEP update: timepoint {timepoint}', text, outfiles)
 
             for file in outfiles:
                 os.remove(file)
     finally:
         email.close()
-
-def embryocv_compute(file, outpath=None, verbose=False):
-    ''' Convenience function for processing callback below. '''
-    lenFrames = embryocv.frameCount(file)
-    fps = embryocv.frameRate(file)
-
-    frameStats, blockWiseMeans = embryocv.blockMeans(embryocv.framesFromVideo(file), lenFrames, verbose)
-    signalData = embryocv.signalWelch(blockWiseMeans, fps, verbose)
-
-    results, mxLength = embryocv.packResults(frameStats, blockWiseMeans, signalData, verbose)
-    
-    if outpath is None: outpath = re.sub('.avi', '.h5', file)
-    embryocv.exportResults(results, outpath)
-    
-    return mxLength
-
-def embryocv_compute_process(queue):
-    while True:
-        if not queue.empty():
-            file = queue.get()
-
-            if file == None:
-                break
-
-            embryocv_compute(file)
 
 def convert_to_avi(files, fps, codec='MJPG', delete_npy=True):
     # For converting numpy files to avi's for ease of use
@@ -560,7 +551,10 @@ def convert_to_avi(files, fps, codec='MJPG', delete_npy=True):
 # Amount of units of moved per second for xy stage
 units_per_sec = 6
 @app.long_callback(
-    output=Output('hiddenAcquire', 'children'),
+    output=[
+        Output('hiddenAcquire', 'children'),
+        Output('acquisition-live-stream-popup', 'is_open'),
+        Output('acquisition-folder-popup', 'is_open')],
     inputs=[Input('acquire-button', 'n_clicks')],
     state=[
         State('connect-cam-callback', 'children'),
@@ -568,6 +562,7 @@ units_per_sec = 6
         State('acq-length', 'value'),
         State('each-time-limit', 'value'),
         State('fps', 'value'),
+        State('drive-select', 'value'),
         State('acquire-path-input', 'value'),
         State('xy_coords', 'data'),
         State('acquisition-number', 'value')
@@ -575,7 +570,17 @@ units_per_sec = 6
     manager=long_callback_manager,
     running=[
         (Output('acquire-button', 'disabled'), True, False),
-        (Output('cancel-acquire-button', 'disabled'), False, True)
+        (Output('cancel-acquire-button', 'disabled'), False, True),
+        (Output('home-xy-button', 'disabled'), True, False),
+        (Output('test-frame-button', 'disabled'), True, False),
+        (Output('camera-live-stream', 'disabled'), True, False),
+        (Output('update-camera-settings', 'disabled'), True, False),
+        (Output('hardware-brightness', 'disabled'), True, False),
+        (Output('load-config-button', 'disabled'), True, False),
+        (Output('grab-xy', 'disabled'), True, False),
+        (Output('replace-xy-button', 'disabled'), True, False),
+        (Output('xy_coords', 'editable'), True, False),
+        (Output('xy_coords', 'row_deletable'), True, False),
     ],
     cancel=[Input('cancel-acquire-button', 'n_clicks')],
     progress=[
@@ -583,17 +588,35 @@ units_per_sec = 6
         Output("embryo-pg", "value"), Output("embryo-pg", "label"), Output("embryo-pg", "max"), 
     ],
 )
-def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, user_path, xy_data, acq_num):
+def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, drive, user_path, xy_data, acq_num):
     if n_clicks is None:
-        return dash.no_update
+        return dash.no_update, False, False
     else:
+        acquisition_state.started()
+
+        if camera_state.trigger and camera_state.state == 'streaming':
+            print('Streaming currently, will fail...')
+            acquisition_state.finished()
+            return trigger, True, False
+
         experimental_log.clear()
+
+        # Create parent folder
+        user = pwd.getpwuid(os.getuid()).pw_name
+        external_dir = os.path.join('/media', user)
+        DATA_FOLDER = os.path.join(external_dir, drive, user_path)       
+
+        if os.path.isdir(DATA_FOLDER):
+            print('Folder already exists, please change to not overwrite existing data...')
+            return trigger, False, True
+
+        os.makedirs(DATA_FOLDER)
 
         if acq_num == 'Single': 
             print('Starting acquisition...')          
             if length == 0:
                 # Acquire footage
-                path = os.path.join(user_path, 'continuous.avi')
+                path = os.path.join(DATA_FOLDER, 'continuous.avi')
                 camera.acquire(path, round(timepoints*time), in_memory=False)
                 ((total, capture, ancillary), (complete, incomplete), ft) = camera.acq_data
                 time_data = [(total, capture, ancillary, incomplete, 
@@ -619,7 +642,7 @@ def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, use
                     leds.set(LED_VALUE)
                     timelib.sleep(1)
 
-                    path = os.path.join(user_path, f'timepoint{t+1}.npy')
+                    path = os.path.join(DATA_FOLDER, f'timepoint{t+1}.npy')
                     paths.append(path)
 
                     # Acquire footage
@@ -658,14 +681,14 @@ def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, use
                     
         elif acq_num == 'Multiple': 
             if length == 0:
-                return 'Cannot have no acquisition interval when acquiring footage for multiple positions.'
+                return 'Cannot have no acquisition interval when acquiring footage for multiple positions.', False, False
 
             # Initial setup
             first = next(iter(xy_data))
             names = [*first]
 
             if len(names) < 3:
-                return 'Coordinate positions must have labels to begin acquisition.'
+                return 'Coordinate positions must have labels to begin acquisition.', False, False
 
             labels = [d['label'] for d in xy_data]
 
@@ -678,7 +701,7 @@ def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, use
             paths = {}
             for replicate in labels:
                 paths[replicate] = []
-                replicate_path = os.path.join(user_path, replicate + '/')
+                replicate_path = os.path.join(DATA_FOLDER, replicate + '/')
 
                 if not os.path.exists(replicate_path):
                     os.makedirs(replicate_path)
@@ -750,7 +773,7 @@ def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, use
                     email_proc = mp.Process(target=send_email, args=(email, t+1, zip(*timepointData), timepointPaths))
                     email_proc.start()
 
-                experimental_log.export(os.path.join(user_path, 'time_data.csv'))
+                experimental_log.export(os.path.join(DATA_FOLDER, 'time_data.csv'))
 
                 # Turn leds off
                 leds.set(0)
@@ -764,7 +787,18 @@ def acquire(set_progress, n_clicks, cam_init, timepoints, length, time, fps, use
                 
         print('Completed acquisition.')
         df = pack_results(zip(*time_data))
-        df.to_csv(os.path.join(user_path, 'capture_data.csv'))
+        df.to_csv(os.path.join(DATA_FOLDER, 'capture_data.csv'))
+
+        if email.isLoggedIn:
+            text = f"""\
+            LabEP update: Completed acquisition.
+            """
+
+            email.send(f'LabEP update: Completed acquisition.', text, None)
+
+        acquisition_state.finished()
+
+        return trigger, False, False
 
 # =============================================================================================== #
 # -------------------------------------- XYZ stage callbacks ------------------------------------ #
@@ -881,20 +915,26 @@ def replace_xy_in_list(n_clicks, selected_rows, data):
     output=[
      Output('generate-xy-button', 'disabled'),
      Output('plate-size', 'disabled')],
-    inputs=[Input('xy_coords', 'data')])
-def enable_generate_xy(xy):
-    if xy is not None:
-        a1 = False
-        for i,pos in enumerate(xy):
-            if 'A1' in pos['label']:
-                a1 = True
-
-        if a1:
-            return False, False
-        else:
-            return True, True
+    inputs=[
+        Input('xy_coords', 'data'),
+        Input('cancel-acquire-button', 'disabled')]
+    )
+def enable_generate_xy(xy, acq_running):
+    if acq_running:
+        return True, True
     else:
-        return False, False
+        if xy is not None:
+            a1 = False
+            for i,pos in enumerate(xy):
+                if 'A1' in pos['label']:
+                    a1 = True
+
+            if a1:
+                return False, False
+            else:
+                return True, True
+        else:
+            return False, False
 
 # Pre-defined plate sizes
 plate_wells = {24:(6,4), 48:(8,6), 96:(12,8), 384:(24,16)}
@@ -905,7 +945,6 @@ plate_wells = {24:(6,4), 48:(8,6), 96:(12,8), 384:(24,16)}
            State('plate-size', 'value')])
 def generate_xy(n_clicks, data, size):
     if n_clicks:
-
         a1 = False
         a1_index = None
         for i,pos in enumerate(data):
@@ -989,20 +1028,15 @@ def update_graph(data, dim_switch):
 
         if len(names) < 3:
             if dim_switch:
-                fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers')])
+                fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers', marker_size=5)])
             else:
                 fig = go.Figure(data=[go.Scatter(x=x, y=y, mode='markers')])
         else:
-            if len(x) in [24,48,96,384]:
-                marker = dict(size=marker_sizes[len(x)], line=(dict(width=1)))
-            else:
-                marker = None
-
             labels = [d['label'] for d in data]    
             if dim_switch:
-                fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, text=labels, mode='markers', marker=marker)])
+                fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, text=labels, mode='markers', marker_size=5)])
             else:
-                fig = go.Figure(data=[go.Scatter(x=x, y=y, text=labels, mode='markers', marker=marker)])
+                fig = go.Figure(data=[go.Scatter(x=x, y=y, text=labels, mode='markers')])
 
         # Enable clicking
         fig['layout']['clickmode'] = 'event+select'

@@ -4,6 +4,8 @@
 	"camera_platform":"picamera",
 	"exposure": 30,
 	"framerate": 15,
-	"emails": "on"
+	"emails": "on",
+	"email_username": "labep.v1.u1@gmail.com",
+	"email_password": "xmlhdutcslixgnvl" 
 }
 

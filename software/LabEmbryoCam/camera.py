@@ -38,9 +38,9 @@ class Camera:
 
     def startup(self, platform):
         if platform == 'opencv':
-            from camera_backend_opencv import OpenCV
+            from camera_backend_pi_opencv import OpenCV_Pi
 
-            self.platform = OpenCV(benchmark=self.benchmark)
+            self.platform = OpenCV_Pi(benchmark=self.benchmark)
 
         elif platform == 'picamera':
             from camera_backend_pi import PiCam

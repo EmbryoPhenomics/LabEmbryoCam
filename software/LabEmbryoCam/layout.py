@@ -42,7 +42,6 @@ def app_layout():
 
     html.Div(className='row', children=[
         html.Div(className='two columns', children=[
-            html.H1(children='  LabEmbryoCam', style={'display': 'inline-block', 'height': '0px'}),
             html.Img(src='./assets/img/embryophenomicslogo.png', style={'display': 'inline-block', 'height': '150px'}),
         ]),
         html.Div(className='eight columns', children=[
@@ -68,29 +67,108 @@ def app_layout():
         ])
     ]),
 
-    html.Br(),
-
     html.Div(className='row', children=[
-                dcc.Tabs(id='hardware-tabs', children=[
+                html.Div(id='loaded-data-callback'),
+                html.Div(id='hiddenFPSdata'),
+                html.Div(id='fullROIData'),
+                html.Div(id='config-save-callback'),
+                html.Div(id='connect-cam-callback'),
 
-                    dcc.Tab(label='Camera', style=tab_style, selected_style=tab_selected_style_sub_main, children=[
+                html.Div(className='row', children=[
+                    html.Div(className='three columns', children=[
 
-                        html.Div(id='loaded-data-callback'),
-                        html.Div(id='hiddenFPSdata'),
-                        html.Div(id='fullROIData'),
-                        html.Div(id='config-save-callback'),
-                        html.Div(id='connect-cam-callback'),
+                        dbc.Card([
+                            dbc.CardHeader('Experiment Settings'),
+                            dbc.CardBody([
+                                dcc.Input(
+                                    id='config-name-input',
+                                    type='text',
+                                    placeholder='Please name a config file...'),
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        dcc.Upload(
+                                            id='load-config-button', 
+                                            multiple=False,
+                                            children=html.Button('Load'))
+                                    ], style={'width': '10%', 'display': 'table-cell'}),
 
-                        html.Div(className='row', children=[
+                                    html.Div(children=[
+                                        html.Button('Save', id='save-config-button')
+                                    ], style={'width': '10%', 'display': 'table-cell'}),
 
-                            html.Div(className='three columns', children=[
+                                    html.Div(children=[], style={'width': '80%', 'display': 'table-cell'}),
+                                ], style={'width': '100%', 'display': 'table'}),
+                            ])
+                        ], style={'width': '35rem'}, color='dark', outline=True),
+
+                        html.Br(),
+
+                        dbc.Card([
+                            dbc.CardHeader('Camera settings'),
+                            dbc.CardBody([
+
+                                html.Label('LED brightness', style={'display': 'inline-block'}),
+
+                                dcc.Slider(
+                                    id='hardware-brightness',
+                                    min=0,
+                                    max=100,
+                                    value=0,
+                                    tooltip={'always_visible': True, 'placement': 'bottom'},
+                                    persistence=True),
+                                html.Div(id='hardware-brightness-callback'),
+
+                                # html.Br(),
+
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        html.Label(children='Exposure'),
+                                        daq.NumericInput(id='exposure', min=0, max=999999, value=0, size=100, disabled=False, persistence=True),
+                                    ], style={'width': '50%', 'display': 'table-cell'}),
+                                    html.Div(children=[
+                                        html.Label(children='Contrast'),                                        
+                                        daq.NumericInput(id='contrast', min=0, max=999999, value=0, size=100, disabled=False, persistence=True),
+                                    ], style={'width': '50%', 'display': 'table-cell'}),
+                                ], style={'width': '100%', 'display': 'table'}),
 
                                 html.Br(),
 
-                                html.H5('Acquisition', style={'display': 'inline-block'}),
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        html.Label(children='Frame-rate'),
+                                        daq.NumericInput(id='fps', min=0, max=999999, value=0, size=75, disabled=False, persistence=True),
+                                    ], style={'width': '40%', 'display': 'table-cell'}),
+                                    html.Div(children=[
+                                        html.Label(children='Resolution'),
+                                        dcc.Dropdown(
+                                            id='resolution-preset',
+                                            placeholder='Please select a resolution...',
+                                            options=[
+                                                dict(label='640x480', value=640),
+                                                dict(label='1280x720', value=1280),
+                                                dict(label='1920x1080', value=1920),
+                                                dict(label='256x256', value=256),
+                                                dict(label='512x512', value=512),
+                                                dict(label='1024x1024', value=1024),
+                                                dict(label='2048x2048', value=2048)],
+                                            disabled=False,
+                                            persistence=True,
+                                            persistence_type='session'),
+                                    ], style={'width': '60%', 'display': 'table-cell'}),
+                                ], style={'width': '100%', 'display': 'table'}),
 
                                 html.Br(),
 
+                                html.Button('Update', id='update-camera-settings'),
+                                html.Div(id='hidden-update-callback'),
+                            ]),
+                        ], style={'width': '35rem'}, color='dark', outline=True),
+
+                        html.Br(),
+
+                        dbc.Card([
+                            dbc.CardHeader('Acquisition'),
+                            dbc.CardBody([
                                 html.Label(children='Number of positions'),
                                 dcc.RadioItems(
                                     id='acquisition-number',
@@ -131,172 +209,110 @@ def app_layout():
 
                                 html.Br(),
 
+                                html.Label('Drive and Folder selection:'),
+
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        dcc.Dropdown(
+                                            id='drive-select',
+                                            placeholder='Please select an external disk to save video...',
+                                            disabled=False),
+                                    ], style={'width': '70%', 'display': 'table-cell'}),
+                                    html.Div(children=[
+                                        html.Button('Refresh', id='drive-refresh'),
+                                    ], style={'width': '30%', 'display': 'table-cell'}),
+                                ], style={'width': '100%', 'display': 'table'}),
+
                                 dcc.Input(
                                     id='acquire-path-input', 
                                     type='text',
-                                    placeholder='Specify a path to save frames...',),
+                                    placeholder='Specify a folder to save video for the drive selected...',),
                                 html.Div(id='acquire-outpath-check'),
 
-                                html.Br(),
-
-                                html.Label('Progress updates'),
-                                dcc.Input(
-                                    id='email-username',
-                                    type='text',
-                                    placeholder='Specify an email username...'),
-                                dcc.Input(
-                                    id='email-password',
-                                    type='password',
-                                    placeholder='Specify an email password...'),
-                                html.Br(),
-                                html.Button('Login', 'email-login'),
-                                html.Div(id='login-callback'),
-
-                                html.Br(),
                                 html.Br(),
 
                                 html.Button('Start acquisition', id='acquire-button'),
                                 html.Div(id='hiddenAcquire'),
                                 html.Button('Cancel acquisition', id='cancel-acquire-button'),
+                                dbc.Modal(
+                                    [
+                                        dbc.ModalHeader(dbc.ModalTitle("Acquisition Error")),
+                                        dbc.ModalBody("Please cancel the live stream before starting an acquisition."),
+                                        dbc.ModalFooter(
+                                            dbc.Button(
+                                                "Close", id="close-stream-popup", className="ms-auto", n_clicks=0
+                                            )
+                                        ),
+                                    ],
+                                    id="acquisition-live-stream-popup",
+                                    is_open=False,
+                                ),
+                                dbc.Modal(
+                                    [
+                                        dbc.ModalHeader(dbc.ModalTitle("Acquisition Error")),
+                                        dbc.ModalBody("Folder already exists, please change it to not overwrite existing data."),
+                                        dbc.ModalFooter(
+                                            dbc.Button(
+                                                "Close", id="close-folder-popup", className="ms-auto", n_clicks=0
+                                            )
+                                        ),
+                                    ],
+                                    id="acquisition-folder-popup",
+                                    is_open=False,
+                                ),
+                            ])
+                        ], style={'width': '35rem'}, color='dark', outline=True)
+                    ]),
 
-                            ]),
+                    html.Div(className='five columns', children=[
 
-                            html.Div(className='two columns', children=[
-
-                                html.Br(),
-
-                                html.Label('Preset configuration files'),
-                                html.Div(children=[
-                                    html.Div(children=[
-                                        dcc.Upload(
-                                            id='load-config-button', 
-                                            multiple=False,
-                                            children=html.Button('Load'))
-                                    ], style={'width': '10%', 'display': 'table-cell'}),
-
-                                    html.Div(children=[
-                                        html.Button('Save', id='save-config-button')
-                                    ], style={'width': '10%', 'display': 'table-cell'}),
-
-                                    html.Div(children=[], style={'width': '15%', 'display': 'table-cell'}),
-
-                                    html.Div(children=[
-                                        dcc.Input(
-                                            id='config-name-input',
-                                            type='text',
-                                            placeholder='Please name a config file...')
-                                    ], style={'width': '65%', 'display': 'table-cell'}),
-                                ], 
-                                style={'width': '100%', 'display': 'table'}),
-
-                                html.Br(),
-
-                                html.H5('Light brightness', style={'display': 'inline-block'}),
-
-                                html.Br(),
-
-                                dcc.Slider(
-                                    id='hardware-brightness',
-                                    min=0,
-                                    max=100,
-                                    value=0,
-                                    tooltip={'always_visible': True, 'placement': 'bottom'},
-                                    persistence=True),
-                                html.Div(id='hardware-brightness-callback'),
-
-                                html.Br(),
-
-                                html.H5('Camera settings', style={'display': 'inline-block'}),
-
-                                html.Br(),
-
-                                html.Div(id='brightness-control', children=[
-
-                                    html.Label(children='Exposure'),
-                                    daq.NumericInput(id='exposure', min=0, max=999999, value=0, size=200, disabled=True, persistence=True),
-
-                                    html.Br(),
-
-                                    html.Label(children='Contrast'),                                        
-                                    daq.NumericInput(id='contrast', min=0, max=999999, value=0, size=200, disabled=True, persistence=True),
-
-                                ]),
-
-                                html.Br(),
-
-                                html.Div(id='fps-control', children=[
-
-                                    html.Label(children='Frame-rate'),
-                                    daq.NumericInput(id='fps', min=0, max=999999, value=0, size=200, disabled=True, persistence=True),
-                                ]),
-
-                                html.Br(),
-
-                                html.Label(children='Resolution'),
-                                dcc.Dropdown(
-                                    id='resolution-preset',
-                                    placeholder='Please select a resolution...',
-                                    options=[
-                                        dict(label='640x480', value=640),
-                                        dict(label='1280x720', value=1280),
-                                        dict(label='1920x1080', value=1920),
-                                        dict(label='256x256', value=256),
-                                        dict(label='512x512', value=512),
-                                        dict(label='1024x1024', value=1024),
-                                        dict(label='2048x2048', value=2048)],
-                                    disabled=False,
-                                    persistence=True,
-                                    persistence_type='session'),
-
-                                html.Br(),
-
-                                html.Button('Update settings', id='update-camera-settings'),
-                                html.Div(id='hidden-update-callback'),
-
-                            ]),
-
-                            html.Div(className='one column', children=[]),
-
-                            html.Div(className='five columns', children=[
-
-                                html.Br(),
+                        dbc.Card([
+                            dbc.CardHeader('Camera View'),
+                            dbc.CardBody([
 
                                 html.Div(children=[
                                     html.Div(children=[
                                         html.Button('Snap', id='test-frame-button')
-                                    ], style={'width': '25%', 'display': 'table-cell'}),
+                                    ], style={'width': '10%', 'display': 'table-cell'}),
 
                                     html.Div(children=[
                                         html.Button('Start/Stop Stream', id='camera-live-stream'),
-                                    ], style={'width': '75%', 'display': 'table-cell'})
+                                    ], style={'width': '40%', 'display': 'table-cell'}),
+                                    html.Div(children=[], style={'width': '50%', 'display': 'table-cell'})
                                 ], style={'width': '100%', 'display': 'table'}),
 
                                 html.Br(),
-
-                                # html.Div(id='still-image', children=[]),
-
-                                # html.Hr(),
 
                                 html.Div(children=[], id='camera-state-live-view'),
                                 html.Div(children=[], id='camera-state-snapshot'),
 
                                 html.Img(src="/video_feed")
+                            ])
+                        ], style={'width': '70rem'}, color='dark', outline=True),
 
-                            ]),
-                        ]),
+                        html.Br(),
+
+                        dbc.Card([
+                            dbc.CardHeader('XYZ View'),
+                            dbc.CardBody([
+                                html.Div(id='coord-graph-div', children=[]),
+                                html.Div(id='graph-xy-move'),
+                            ])
+                        ], style={'width': '70rem'}, color='dark', outline=True),
+
                     ]),
 
-                    dcc.Tab(label='XYZ', style=tab_style, selected_style=tab_selected_style_sub_main, children=[
-                        html.Div(className='row', children=[
-                            html.Div(className='three columns', children=[
+                    html.Div(className='one column', children=[]),
 
-                                html.Br(),
-
+                    html.Div(className='three columns', children=[
+                        dbc.Card([
+                            dbc.CardHeader('XYZ controls and settings'),
+                            dbc.CardBody([
                                 html.Button('Set Origin', id='home-xy-button'),
                                 html.Div(id='xyz-homing-callback'),
 
                                 html.Br(),
-
+                                
                                 html.Div(children=[
                                     html.Div(children=[
                                         html.Label('Manual controls')
@@ -310,15 +326,32 @@ def app_layout():
                                 ], style={'width': '100%', 'display': 'table'}),
                                 html.Div(id='manual-controls-callback'),
 
-                                html.Br(),
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        html.Label('Activate graph')
+                                    ], style={'width': '50%', 'display': 'table-cell'}),
 
-                            ]),
+                                    html.Div(children=[
+                                        daq.BooleanSwitch(
+                                            id='activate-graph-switch',
+                                            on=False)
+                                    ], style={'width': '50%', 'display': 'table-cell'})
+                                ], style={'width': '100%', 'display': 'table'}),
 
-                            html.Div(className='three columns', children=[
+                                html.Div(children=[
+                                    html.Div(children=[
+                                        html.Label('Dimensions')
+                                    ], style={'width': '50%', 'display': 'table-cell'}),
+
+                                    html.Div(children=[
+                                        daq.ToggleSwitch(
+                                            id='dimensions-switch',
+                                            value=False,
+                                            label=['2D', '3D'])
+                                    ], style={'width': '50%', 'display': 'table-cell'})
+                                ], style={'width': '100%', 'display': 'table'}),
 
                                 html.Br(),
-                                html.Br(),
-                                html.Br(), # Extra spacing to line up with above inputs
 
                                 html.Div(children=[
                                     html.Div(children=[
@@ -341,10 +374,14 @@ def app_layout():
                                 html.Div(id='generate-xy-callback'),
                                 html.Div(id='load-xy-callback'),
 
-                                html.Br(),
+                            ])
+                        ], style={'width': '35rem'}, color='dark', outline=True),
 
-                                html.H5('Position List', style={'display': 'inline-block'}),
+                        html.Br(),
 
+                        dbc.Card([
+                            dbc.CardHeader('XYZ Positions'),
+                            dbc.CardBody([
                                 html.Div(children=[
                                     html.Div(children=[
                                         html.Button('Current', id='grab-xy'),
@@ -375,58 +412,17 @@ def app_layout():
                                         dict(name='Z', id='z'),
                                         dict(name='Label', id='label')],
                                     style_cell={'textAlign': 'left'},
-                                    style_cell_conditional=[{'if': {'column_id': col},'width': '25%'} for col in ['x','y','z']],
+                                    style_cell_conditional=[{'if': {'column_id': col},'width': '20%'} for col in ['x','y','z']],
                                     fixed_rows={'headers': True},
-                                    style_table={'height': 500},
+                                    style_table={'height': 300},
                                     row_deletable=True,
                                     row_selectable='single',
                                     editable=True,
-                                    page_size=500
+                                    page_size=300
                                 )
-                            ]),
-
-                            html.Div(className='four columns', children=[
-
-                                html.Br(),
-
-                                html.Br(),
-
-                                html.Div(children=[
-                                    html.Div(children=[
-                                        html.Label('Activate graph')
-                                    ], style={'width': '50%', 'display': 'table-cell'}),
-
-                                    html.Div(children=[
-                                        daq.BooleanSwitch(
-                                            id='activate-graph-switch',
-                                            on=False)
-                                    ], style={'width': '50%', 'display': 'table-cell'})
-                                ], style={'width': '100%', 'display': 'table'}),
-
-                                html.Br(),
-
-                                html.Div(id='coord-graph-div', children=[]),
-                                html.Div(id='graph-xy-move'),
-
-                                html.Br(),
-                                html.Br(),
-
-                                html.Div(children=[
-                                    html.Div(children=[
-                                        html.Label('Dimensions')
-                                    ], style={'width': '50%', 'display': 'table-cell'}),
-
-                                    html.Div(children=[
-                                        daq.ToggleSwitch(
-                                            id='dimensions-switch',
-                                            value=False,
-                                            label=['2D', '3D'])
-                                    ], style={'width': '50%', 'display': 'table-cell'})
-                                ], style={'width': '100%', 'display': 'table'}),
-
-                            ]),
-                        ])
-                    ])
-                ])
+                            ])
+                        ], style={'width': '35rem'}, color='dark', outline=True),
+                    ]),
+                ]),
             ])
         ])

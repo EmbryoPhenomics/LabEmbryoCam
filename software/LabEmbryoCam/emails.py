@@ -14,51 +14,51 @@ from email.mime.base import MIMEBase
 from email.mime.image import MIMEImage
 from email.mime.text import MIMEText
 
-try:
-    with open('../app_config.json', 'r') as conf:
-        app_conf = json.load(conf)
-        red_fact = app_conf['reduction_factor']
-        cores = app_conf['compress_cores']
-except FileNotFoundError:
-    with open('./app_config.json', 'r') as conf:
-        app_conf = json.load(conf)
-        red_fact = app_conf['reduction_factor']
-        cores = app_conf['compress_cores']
-except:
-    raise
+# try:
+#     with open('../app_config.json', 'r') as conf:
+#         app_conf = json.load(conf)
+#         red_fact = app_conf['reduction_factor']
+#         cores = app_conf['compress_cores']
+# except FileNotFoundError:
+#     with open('./app_config.json', 'r') as conf:
+#         app_conf = json.load(conf)
+#         red_fact = app_conf['reduction_factor']
+#         cores = app_conf['compress_cores']
+# except:
+#     raise
 
-# Declared here so it's not constantly created whenever a writer is made below
-fourcc = cv2.VideoWriter_fourcc(*'MPEG')
-def compress_video(file):
-    video = cv2.VideoCapture(file)
+# # Declared here so it's not constantly created whenever a writer is made below
+# fourcc = cv2.VideoWriter_fourcc(*'MPEG')
+# def compress_video(file):
+#     video = cv2.VideoCapture(file)
 
-    fps = int(video.get(cv2.CAP_PROP_FPS))
-    width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH)*red_fact)
-    height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT)*red_fact)
-    outpath = re.sub('.avi', '_mp.avi', file)
+#     fps = int(video.get(cv2.CAP_PROP_FPS))
+#     width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH)*red_fact)
+#     height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT)*red_fact)
+#     outpath = re.sub('.avi', '_mp.avi', file)
 
-    writer = cv2.VideoWriter(outpath, fourcc, fps, (width, height))
+#     writer = cv2.VideoWriter(outpath, fourcc, fps, (width, height))
 
-    while video.isOpened():
-        success, frame = video.read()
-        if success == False:
-            break
+#     while video.isOpened():
+#         success, frame = video.read()
+#         if success == False:
+#             break
 
-        frame = cv2.resize(frame, (width, height))            
-        writer.write(frame)
+#         frame = cv2.resize(frame, (width, height))            
+#         writer.write(frame)
 
-    video.release()
-    writer.release()
+#     video.release()
+#     writer.release()
 
-    return outpath
+#     return outpath
 
-def compress_video_par(files):
-    print('LabEP: Compressing video for sending over email...')
-    pool = mp.Pool(processes=cores)
-    out_files = list(tqdm(pool.imap(compress_video, files), total=len(files)))
-    pool.close()
+# def compress_video_par(files):
+#     print('LabEP: Compressing video for sending over email...')
+#     pool = mp.Pool(processes=cores)
+#     out_files = list(tqdm(pool.imap(compress_video, files), total=len(files)))
+#     pool.close()
 
-    return out_files
+#     return out_files
 
 class Emails:
     def __init__(self):
@@ -113,10 +113,11 @@ class Emails:
             attachment.add_header("Content-Disposition", "attachment", filename=att)
             msg.attach(attachment)
 
-        if isinstance(attachments, list):
-            for att in attachments: pack_attachment(att)
-        else:
-            pack_attachment(attachments)
+        if attachments is not None:
+            if isinstance(attachments, list):
+                for att in attachments: pack_attachment(att)
+            else:
+                pack_attachment(attachments)
 
         self.server.sendmail(self.username, self.username, msg.as_string())
 
