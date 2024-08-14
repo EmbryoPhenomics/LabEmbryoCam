@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. SOFTWARE &mdash; LabEmbryoCam 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.1. SOFTWARE-INSTALLATION" href="SOFTWARE-INSTALLATION.html" />
+    <link rel="prev" title="1.9. HUMIDIFICATION CHAMBER" href="../hardware/HUMIDIFICATION-CHAMBER.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> LabEmbryoCam
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">HARDWARE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">1. <strong>HARDWARE</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SOFTWARE</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. <strong>SOFTWARE</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SOFTWARE-INSTALLATION.html">1.1. <strong>SOFTWARE-INSTALLATION</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="CAMERA-OPTIONS.html">1.2. <strong>CAMERA-OPTIONS</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="STAGE-OPTIONS.html">1.3. <strong>STAGE-OPTIONS</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="SETTING-UP-EXPERIMENT.html">1.4. <strong>SETTING-UP-EXPERIMENT</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ANALYSIS.html">1.5. <strong>ANALYSIS</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LabEmbryoCam</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li><span class="section-number">1. </span><strong>SOFTWARE</strong></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/software/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="software">
+<h1><span class="section-number">1. </span><strong>SOFTWARE</strong><a class="headerlink" href="#software" title="Permalink to this heading">¶</a></h1>
+<p>The LabEmbryoCam app is built using Dash, a Python based framework from Plotly. The app enables control of the LabEmbryoCam instrument - including camera, XYZ position and lighting, and it enables the automated control of these during the course of an acquisition.</p>
+<p>Additional analytical scripts are provided for integrating the acquired video for each XYZ position, and running various analyses including automated heartrate measurement and embryo size measurement.</p>
+<p>Once you have powered on your system, you can enter the desktop environment of the LEC using the following password: <cite>pi</cite>. Once you have logged in, you can start the LabEmbryoCam (LEC) user interface by double clicking the icon on the desktop or in the Activities panel:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/starting-webserver.png"><img alt="../_images/starting-webserver.png" src="../_images/starting-webserver.png" style="width: 550px;" /></a>
+</figure>
+<p>A terminal window will automatically open followed by the browser with the webserver (user interface) loaded. We can now proceed with getting the hardware set up for running an experiment. When the LEC user interface first loads, it connects to the various hardware components automatically - give it a few seconds before interacting with it to allow this process to complete.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/global-ui.png"><img alt="../_images/global-ui.png" src="../_images/global-ui.png" style="width: 650px;" /></a>
+</figure>
+<p>The LEC user interface is divided into a number of sections</p>
+<ul class="simple">
+<li><ol class="upperalpha simple">
+<li><p><strong>Experiment Settings</strong> - for loading a configuration file to repopulate previously used settings.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="2">
+<li><p><strong>Camera View</strong> - for adjusting the camera, streaming the camera feed, and snapping still images.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="3">
+<li><p><strong>XYZ controls and settings</strong> - for homing the XYZ stage, and moving the optics carriage around.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="4">
+<li><p><strong>XYZ Positions</strong> - for populating a list of XYZ positions.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="5">
+<li><p><strong>XYZ View</strong> - for interacting with XYZ positions, and automatically generating positions for wells of multiwell plates.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="6">
+<li><p><strong>Experiment setup</strong> - for configuring and running experiments - either at a single positon, or multiple.</p></li>
+</ol>
+</li>
+<li><ol class="upperalpha simple" start="7">
+<li><p><strong>Experiment Progress</strong> - for monitoring the progress of an experiment.</p></li>
+</ol>
+</li>
+</ul>
+<p><strong>INDEX</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SOFTWARE-INSTALLATION.html">1.1. <strong>SOFTWARE-INSTALLATION</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CAMERA-OPTIONS.html">1.2. <strong>CAMERA-OPTIONS</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="STAGE-OPTIONS.html">1.3. <strong>STAGE-OPTIONS</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SETTING-UP-EXPERIMENT.html">1.4. <strong>SETTING-UP-EXPERIMENT</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ANALYSIS.html">1.5. <strong>ANALYSIS</strong></a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="SOFTWARE-INSTALLATION.html" class="btn btn-neutral float-right" title="1.1. SOFTWARE-INSTALLATION" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../hardware/HUMIDIFICATION-CHAMBER.html" class="btn btn-neutral float-left" title="1.9. HUMIDIFICATION CHAMBER" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Oli Tills
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

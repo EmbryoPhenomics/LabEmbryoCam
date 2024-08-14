@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camera settings &mdash; LabEmbryoCam 1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stage settings" href="stage-options.html" />
+    <link rel="prev" title="Software installation" href="software-installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LabEmbryoCam
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HARDWARE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html"><strong>HARDWARE</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SOFTWARE</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html"><strong>SOFTWARE</strong></a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="software-installation.html">Software installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Camera settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#light-brightness">Light brightness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Camera options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stage-options.html">Stage settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setting-up-an-experiment.html">Setting up an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html">Analysis Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LabEmbryoCam</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><strong>SOFTWARE</strong></a></li>
+      <li class="breadcrumb-item active">Camera settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/software/camera-options.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="camera-settings">
+<span id="camera-options"></span><h1>Camera settings<a class="headerlink" href="#camera-settings" title="Permalink to this heading"></a></h1>
+<p>The LabEmbryoCam is built to work with the Raspberry Pi HQ camera, but can support other cameras, with appropriate drivers and linking functions in the LabEmbryoCam app. The camera connects automatically when starting the app. Select the desired Resolution and Exposure, and click ‘Update settings’ to update the camera.</p>
+<p>Clicking Snap will capture a still image, or Start/Stop Stream will initiate a live video from the camera. This live stream can then be used to configure other aspects of the instrument, such as setting X, Y and Z positions.</p>
+<img alt="../_images/camera_settings_ui.png" src="../_images/camera_settings_ui.png" />
+<p>Once the camera is live, you can then focus the camera - large changes to focus are acheived by manually sliding the camera carriage up, or down, but focus can also be adjusted using the z-axis buttons. The lens included in the bill of materials is a low cost lens, with a broad range of magnification. Note that at higher magnification, the lens must be closer to the sampler. The working distance (distance between the sample and lens) will vary depending on the lens being used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The XYZ movement must first be calibrated, via setting the origin, before you can move the instrument using either the joystick or z-buttons. This means that the stage should always work from (0,0,0) and positions should be repeatable between acquisitions i.e. if you save a set of positions, you can revisit the same positions if you reload them.</p>
+</div>
+<section id="light-brightness">
+<h2>Light brightness<a class="headerlink" href="#light-brightness" title="Permalink to this heading"></a></h2>
+<p>The light brightness can be set with a slider until your desired brightness is achieved. Note that if you would like to achieve higher frame-rate in image capture, you can turn the LED brightness up whilst also reducing the exposure time to keep the illumination of the sample the same. The light turns off when the camera is not acquiring.</p>
+</section>
+<section id="id1">
+<h2>Camera options<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>Exposure time</strong></dt><dd><p>The shutter speed at which the camera operates in milliseconds</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Contrast</strong></dt><dd><p>Contrast of the images acquired</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Frame-rate</strong></dt><dd><p>The frame-rate at which videos are captured. Note that for high resolutions, such as 2048x2048, you will need to reduce exposure time below 10ms if you would like to achieve a frame-rate higher than 15-20fps. This is due to hard limit set by the <cite>raspividyuv</cite> software on raspberry pi.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Resolution</strong></dt><dd><p>Presets for resolution at which images will be captured.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Any time you wish to change settings, you need to make sure that the camera is inactive (i.e. not capturing for a live stream or acquisition) and to press the <cite>Update Settings</cite> button. The drivers for the Raspberry Pi HQ camera are quite stable, but in the event of the camera, or any other part of the system becoming unresponsive, please restart the computer.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="software-installation.html" class="btn btn-neutral float-left" title="Software installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stage-options.html" class="btn btn-neutral float-right" title="Stage settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Oli Tills.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
