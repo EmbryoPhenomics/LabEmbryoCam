@@ -1,2 +1,0 @@
-LEC V2 BILL OF MATERIALS
-===========
