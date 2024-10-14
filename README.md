@@ -1,4 +1,4 @@
-![LEC_logo ](https://user-images.githubusercontent.com/8396231/221188639-92ca7ebc-34f5-47c7-8962-7cbffc920f90.png)
+![Untitled](https://github.com/user-attachments/assets/8474290f-f445-4cc5-b272-15405a5b88eb)
 
 For further details of the LabEmbryoCam, please visit: 
 
