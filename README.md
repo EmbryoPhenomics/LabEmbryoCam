@@ -1,4 +1,4 @@
-***LabEmbryoCam***
+# LabEmbryoCam
 
 This is the Github repository for the software that runs a LabEmbryoCam.
 
