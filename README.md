@@ -1,4 +1,4 @@
-![Untitled](https://github.com/user-attachments/assets/8474290f-f445-4cc5-b272-15405a5b88eb = 640x480)
+![Untitled]("https://github.com/user-attachments/assets/8474290f-f445-4cc5-b272-15405a5b88eb" width= 640)
 
 For further details of the LabEmbryoCam, please visit: 
 
