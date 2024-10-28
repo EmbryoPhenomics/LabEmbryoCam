@@ -636,7 +636,7 @@ The LabEmbryoCam is modelled using the CAD software Autodesk Fusion360 - freely 
 | LEC_008_F_06_M2.5-12MM | M2.5-12MM-SOCK-SCREW               | 2     |
 
 
-<img src="PDFs/LEC_008_A-Z-ASSEMBLY.png"  width="100%">
+<img src="PDFs/LEC_008_A-Z-ASSEMBLY_2.png"  width="100%">
 
 **FIGURE 9.0. Z-axis assembly** 
 
