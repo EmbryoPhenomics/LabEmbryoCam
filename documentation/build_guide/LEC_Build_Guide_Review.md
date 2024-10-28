@@ -9,7 +9,7 @@
 
 
 
-![Frame](PDFs/LEC_render.png) 
+![Frame](PDFs/LEC_render_2.png) 
 
 
 -----------------
@@ -559,7 +559,7 @@ The LabEmbryoCam is modelled using the CAD software Autodesk Fusion360 - freely 
 
 
 
-<img src="PDFs/LEC_00X_BELT-ROUTING.png"  width="100%">
+<img src="PDFs/LEC_00X_BELT-ROUTING_2.png"  width="100%">
 
 ***FIGURE 8.0. Belt routing with top front corner parts removed for clarity, and belts coloured to aid clarity. Belts attach to the x-carriage*** 
 
