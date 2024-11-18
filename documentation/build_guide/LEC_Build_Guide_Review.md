@@ -90,42 +90,42 @@ Unless otherwise stated in **Specific Print Settings** parts should be printed u
 
 
 
-| **Parts**   |**Quantity**|**Specific Print Settings**|
-|--------------------------------|------|-----|
-| LEC_002_P_01_FR/BL_BOTTOM-CORNER   | 2           ||
-| LEC_002_P_01_FR/BR_BOTTOM-CORNER   | 2           ||
-| LEC_002_P_03_LEAFSPRING            | 4           ||
-| LEC_003_P_01_BACK-CORNER_L         | 1           ||
-| LEC_003_P_02_BACK-CORNER_R         | 1           ||
-| LEC_003_P_03_PULLEY_L              | 1           ||
-| LEC_003_P_04_PULLEY_R              | 1           ||
-| LEC_003_P_05_KNOB                  | 2           ||
-| LEC_004_P_01_BOTTOM-CORNER_L       | 1           ||
-| LEC_004_P_02_BOTTOM-CORNER_R       | 1           ||
-| LEC_004_P_03_LOW-CORNER-BRACKET_L  | 1           ||
-| LEC_005_P_01_YAXIS-LOWER_L         | 1           ||
-| LEC_005_P_02_YAXIS-LOWER_R         | 1           ||
-| LEC_005_P_03_YAXIS-UPPER_L         | 1           ||
-| LEC_005_P_04_YAXIS-UPPER_R         | 1           ||
-| LEC_005_P_05_YAXIS-LIMSWITCH_MOUNT | 1           ||
-| LEC_006_P_01_Z-AXIS-CARRIAGE-UPPER | 1           ||
-| LEC_007_P_01_TOP-CORNER_L          | 1           ||
-| LEC_007_P_02_TOP-CORNER_R          | 1           ||
-| LEC_006_P_02_Z-AXIS-CARRIAGE-LOWER | 1           ||
-| LEC_008_P_01_Z-CARRIAGE            | 1           |CF-PETG|
-| LEC_008_P_02_LIGHT-BRACKET-TOP     | 1           ||
-| LEC_008_P_03_LIGHT-BRACKET-BOTTOM  | 1           ||
-| LEC_008_P_04_OPTICS-MOUNT          | 1           ||
-| LEC_008_P_05_CAM-MOUNT             | 1           ||
-| LEC_008_P_06_RAIL-INSERT           | 1           ||
-| LEC_008_P_07_OPTIC-SCREW           | 1           ||
-| LEC_008_P_08_ZLIM-TRIGGER          | 1           ||
-| LEC_008_P_09_BACK-ROD-SECURE       | 2           ||
-| LEC_008_P_10_FRONT-ROD-SECURE      | 2           ||
-| LEC_008_P_11_LIGHT-MOUNT           | 1           ||
-| LEC_008_P_12_LIGHT-KNOB            | 1           ||
-| LEC_008_P_13_LIGHT-DIFFUSER        | 1           ||
-| LEC_009_P_01_MOUNTING-PLATE        | 1           ||
+| Part                               | Quantity Needed | Specific Print Settings |
+|------------------------------------|-----------------|-------------------------|
+| LEC_002_P_01_FR/BL_BOTTOM-CORNER   | 2               |                         |
+| LEC_002_P_01_FR/BR_BOTTOM-CORNER   | 2               |                         |
+| LEC_002_P_03_LEAFSPRING            | 4               |                         |
+| LEC_003_P_01_BACK-CORNER_L         | 1               |                         |
+| LEC_003_P_02_BACK-CORNER_R         | 1               |                         |
+| LEC_003_P_03_PULLEY_L              | 1               |                         |
+| LEC_003_P_04_PULLEY_R              | 1               |                         |
+| LEC_003_P_05_KNOB                  | 2               |                         |
+| LEC_004_P_01_BOTTOM-CORNER_L       | 1               |                         |
+| LEC_004_P_02_BOTTOM-CORNER_R       | 1               |                         |
+| LEC_004_P_03_LOW-CORNER-BRACKET_L  | 1               |                         |
+| LEC_005_P_01_YAXIS-LOWER_L         | 1               |                         |
+| LEC_005_P_02_YAXIS-LOWER_R         | 1               |                         |
+| LEC_005_P_03_YAXIS-UPPER_L         | 1               |                         |
+| LEC_005_P_04_YAXIS-UPPER_R         | 1               |                         |
+| LEC_005_P_05_YAXIS-LIMSWITCH_MOUNT | 1               |                         |
+| LEC_006_P_01_Z-AXIS-CARRIAGE-UPPER | 1               | CF-PETG                 |
+| LEC_007_P_03_TOP-CORNER_L          | 1               |                         |
+| LEC_007_P_02_TOP-CORNER_R          | 1               |                         |
+| LEC_006_P_02_Z-AXIS-CARRIAGE-LOWER | 1               | CF-PETG                 |
+| LEC_008_P_01_Z-CARRIAGE            | 1               | CF-PETG                 |
+| LEC_008_P_02_LIGHT-BRACKET-TOP     | 1               |                         |
+| LEC_008_P_03_LIGHT-BRACKET-BOTTOM  | 1               |                         |
+| LEC_008_P_04_OPTICS-MOUNT          | 1               | CF-PETG                 |
+| LEC_008_P_05_CAM-MOUNT             | 1               | CF-PETG                 |
+| LEC_008_P_06_RAIL-INSERT           | 1               | CF-PETG                 |
+| LEC_008_P_07_OPTIC-SCREW           | 1               | CF-PETG                 |
+| LEC_008_P_08_ZLIM-TRIGGER          | 1               |                         |
+| LEC_008_P_09_BACK-ROD-SECURE       | 2               |                         |
+| LEC_008_P_10_FRONT-ROD-SECURE      | 2               |                         |
+| LEC_008_P_11_LIGHT-MOUNT           | 1               | CF-PETG                 |
+| LEC_008_P_12_LIGHT-KNOB            | 1               | CF-PETG                 |
+| LEC_008_P_13_LIGHT-DIFFUSER        | 1               | CF-PETG                 |
+| LEC_009_P_01_MOUNTING-PLATE        | 1               |                         |
 
 
 
@@ -381,6 +381,7 @@ The LabEmbryoCam is modelled using the CAD software Autodesk Fusion360 - freely 
 | ***Fixings*** |                                     |             |
 | LEC_004_F_01_M3-15MM-SOCKETHEAD-SCREW | M3-15MM-SOCKETHEAD-SCREW | 6|
 | LEC_004_F_02_M3-35MM-SOCKETHEAD-SCREW | M3-35MM-SOCKETHEAD-SCREW | 6|
+| LEC_004_F_06_M3-40MM-BUTTONHEAD-SCREW | M3-40MM-BUTTONHEAD-SCREW | 4|
 | LEC_004_F_03_M3-WASHER | M3-WASHER                  | 18          |
 | LEC_004_F_04_M3-HEX-NUT | M3-HEX-NUT                   | 6           |
 | LEC_004_F_05_M5-10MM-SOCKETHEAD-SCREW | M5-10MM-SOCKETHEAD-SCREW | 2|
@@ -758,60 +759,143 @@ For most builders, these will have been provided as already built 'assemblies', 
 ### 10.2 Electronics Enclosure
 -----------------
 
-***Electronics are mounted inside a metal enclosure, with 3D printed endplates, which is attached to the rear of the instrument.***
+***Electronics are mounted inside a metal enclosure, with 3D printed endplates. This enclosure is mounted
+on the rear of the LabEmbryoCam, and connections made to the various components via cables and wiring
+looms.***
 
-<img src="PDFs/electronics-assembly-schematic.pdf"  width="100%">
+Before fitting components to the electronics enclosure it is necessary to remove the existing metal fascias,
+and replace with 3D printed fascias.
 
-**FIGURE 10.0**
+**10.2.1 Attaching fan end plate**
 
 
+Replace each of the metal end fascias with one of each of the LEC_008_P_08_PORT-PLATE and
+LEC_008_P_07_FAN-PLATE, using M3 COUNTERSUNK on the sides, and M3 NYLOC NUTS, and M3
+COUNTERSUNK 12 MM underneath.
+
+**WHICH WAY AROUND - PIC/GUIDE**
+
+Fit Notura fan to FAN END PLATE (label facing plate, wire of fan in bottom corner) using 12 MM M3
+BUTTONHEAD SCREWS and M3 NYLOC NUTs.
+
+After fitting the fan, attach the end plate to the enclosure.using M3 6MM countersunk screws on the sides,
+and M3 12MM countersunk screws and nyloc screws on the bottom.
+
+**10.2.2. Assembling and attaching port end plate**
+
+
+Attach ports and cables to the port end plate using screws included with the cables, or M2.5 12 MM
+sockethead screws.
+1. 3 x USB 3.0 ports
+2. 2 x HDMI ports
+3. 1 x Ethernet port
+4. 1 x ON/OFF switch
+DB15 and DB25 male ports should be attached to the port plate using D-SUB SCREW LOCKs and M3 NYLOC
+NUTs.
+5. 1 x DB25 port
+6. 1 x DB15 port
+
+----
+### 10.3 Attaching Internal Components
+------
 
 ## Electronics Enclosure (LEC_009_A_01)
-
-
-
-
 
 
 
 <img src="PDFs/LEC_008_A_ELECTRONICS_DRAWING v1.pdf"  width="100%">
 
 
-
-
-
 **FIGURE 10.1** Electronics enclosure assembly
 
 
+**10.3.3 Mounting electronics plate**
+1. Attach the 3D printed plastic LEC_008_P_01_MOUNTING-PLATE to the threads of the electronics
+enclosure (ensure 4 threaded inserts attached - 2 for PSU and 2 for microcontroller bracket). Using 3 x
+M3 10 MM sockethead mm screws, and 1 x M3 10 MM COUNTERSUNK SCREW. NOTE that countersunk
+screw is for the countersunk hole.
+ADD FIG
 
-----
-### 10.3 Attaching Internal Components
-------
+**10.3.4 Mounting power supply**
 
-Connect the 3D printed plastic MOUNTING-PLATE to the metal plate of the electronics enclosure. Using M3 XX mm screws.
-
-Begin by attaching the power supply, PSU-SEASONIC300SUG, with four screws - two to attach it to the front panel, and two to attach the back to the MOUNTING plate.
-
-Attach the FAN to the rear fan plate of the electronics enclosure, using the four fan screws, included with it.
-
-Install the USB-HUB using xx MM screws, with the USB-A ports facing the fan, and the USB-C ports facing the PSU.
-
-Attach the ATX-BREAKOUT to the MOUNTING-PLATE using XX MM screws.
-
-Connect the ARDUCAM HDMI-CSI adapter to the top of the RPI4, and then the RPI to the MOUNTING-PLATE, using M2.5 screws.
+1. Attach PSU bracket to the PSU using the included philips countersunk screws.. (IMG).
+2. The mains socket connection of the PSU should fit tightly in the the PORT plate of the electronics
+enclosure. Once fitted snuggly, attach the PSU to the electronics plate using two M XX MM
+SOCKETHEAD SCREWS. Attach the PSU to the PORT plate using two XX MM buttonhead screws.
+3. The power supply cable bundle must be modified to remove the unnecessary connectors (i.e. those
+that don't fit directly to the ATX breakout). These cables should be cut and isolated with individual
+heatshrink around each cable, and larger heatsink around the unneeded bundle of cables.
 
 
+**10.3.5 Mounting microcontroller stack**
 
-...FIG..
+Important that the microcontroller stack is fitted in the following order.
+1. Connect wires to header board and mount on microcontroller
+1. 4 wires from DB15 - A2, A3, GND, 5V
+2. 2 wires from 5V, GND -> ATX board 5V, GND
+2. Attach printed mount to electronics board
+3. Attach microcontroller to printed mount (with nyloc M2.5 nuts and ...)
+ADD FIG
 
+
+**10.3.6 Mounting Raspberry Pi stack**
+
+1. Attach NVMe board to RPi - ensuring that the NVMe has first been flashed with the current LEC
+opearting image.
+2. Insert 3D printed spacers between RPI and NVMe board and use M2.5 16 MM screws - attach this stack
+to the mounting points on the electronics board.
+3. Attach ribbon cable to RPi connector
+4. Mount arducam-csi adapter to the header pins
+5. Feed ribbon cable through, ensuring it is facing relevant direction, to attach to the ribbon connector on
+the Arducam-CSI board. Connect the 'Camera HDMI cable' from the port fascia connector.
+6. Connect:
+1. 90 degree USB cable from ATX board
+2. USB port from USB-HUB to USB 3.0 (blue)
+3. USB from SSD port to USB 3.0
+4. 90 degree micro-HDMI -> Display
+5. Ethernet from NETWORK PORT
+ADD FIG
+
+**10.3.7 ATX Breakout board**
+
+1. Requires:
+1. 2 x 200 mm wires (red and black) for 12V/GND -> 12V/GND on the Duet board
+2. 1 x USB-C bare-end 5V/GND -> RPi
+3. 2 x 250 mm (red, black) from microcontroller -> 5V / GND microcontroller
+4. 2 x 200 mm wires (red, black) - PWR/CONN -> ON/OFF SWITCH
+5. 2 x 350 mm barrel connector USB HUB -> 5V / GND
+2. Mount ATX board to the electronics plate.
+3. Double check that the screw underneath the ATX board (securing the electronics plate, is not making
+contact with the undereside of the ATX board).
+
+**10.3.7 USB Hub**
+
+1. Connect barrel connector from ATX-BOARD to the barrel power connector on USB HUB.
+2. Connect 90 degree USB-C from USB-HUB to a USB 3.0 port.
+3. Connect peripherals to USB-A ports
+| Port Destination Cable type                 |
+|---------------------------------------------|
+| USB 1 Arduino UNO USB B -> USB-A            |
+| USB 2 Duet USB A -> Micro-USB               |
+| USB 3 Peripheral USB Port USB PORT -> USB-A |
+| USB 4 Display USB PORT -> USB-A             |
+
+**10.3.8 Duet board**
+
+1. Attach power from the ATX board wires.
+2. Connect micro-USB from Duet board to USB-HUB
+3. Connect limit switches from DB15 and DB25 connectors to the appropriate Duet 3 pin limit switch
+connectors.
+4. Connect stepper motors from DB15 and DB25 connectors from the appropriate Duet 3 stepper driver
+connectors.
+5. Ensure Duet microSD is flashed with current software from LEC Github repository.
+DOUBLE-CHECK CONNECTORS
+ADD FIG
 
 
 ---------------
 ### 10.4 Wiring Loom
 ---------------
-
-
-
 
 
 <img src="PDFs/LEC_008_A_WIRING_LOOM.pdf"  width="100%">
@@ -945,31 +1029,6 @@ Black, Blue, Green, Red
 | USB   | Accessory|  XX  |USB->USB|USB PORT->USB-HUB|
 | ETHERNET   | Networking|  XX  |RJ45->RJ45|RJ45-PORT->RPI4-RJ45|
 
-
-
-
-
-Up/down buttons
-
-RG - up
-
-BB - down 
-
-direction on circuit board needs changing..? or microcontroller?
-
-
-
-
-
-
-
-### Cooling..
-
-
-
-
-
-
 -----------------
 ## 12.0 VIBRATION-INSULATION
 -----------------
@@ -1002,9 +1061,6 @@ Each corner encompasses two vibration insulation components - a sorbothene foot,
 
 
 
-
-
-
 -----------------
 
 ### Panel attachment
@@ -1015,67 +1071,15 @@ While not essential, attaching plastic panels to the LabEmbryoCam is encouraged 
 locations above. Before installing the panels, insert M3 square nuts into the holes at the top and bottom of each spacer. The square nuts should slide as far as they can be pushed, using a small allen key or similar, so that the hole in the nut aligns with the hole in the 3D printed spacer.
 
 
-
-
------------------
-### Manual Controls
----------------
-
-| PARTS REQUIRED                          |                 |
-|-----------------------------------------|-----------------|
-|**Component description**               |**Qty required** |
-| Red wire                                | 755 cm          |
-| Green wire                              | 520 cm          |
-| Blue wire                               | 620cm           |
-| Black wire                              | 595 cm          |
-| Yellow wire                             | 350 cm          |
-| White wire                              | 325 cm          |
-| XY Joysticks                            | 1               |
-| Z axis buttons                          | 2               |
-| **3D Prints**                           |                 |
-| Joystick_panel_right                    | 1               |
-| Joystick_panel_left                     | 1               |
-
-Once the joystick and buttons are attached to the front panels, the front panels can then be attached to the LabEmbryoCam.
-
-<img src="PDFs/manual_controls.png"  width="100%">
-**FIGURE 12.0**
-
-Solder cables to each of the pins on the joystick (2 x 3 cables per axis), and two buttons (2 x 2 cables) and 
-then attach the buttons and joystick to the 3D printed front panels. Ensure the cables are labelled to ensure they can be connected 
-appropriately to the microcontroller. 
-
-.. note:: Although not essential, joystick and button labels are provided as seperate STLs and can be printed in different colour filaments i.e. begin the print with the label colour, before switching to the colour used for the main body of the part. 
-
-
-
-
-
-
 -----------------
 ### DISPLAY INSTALLATION
 -----------------
-
-
-
-
---------------
-### Display installation
-------------------
 | **Parts**                             | **Shorthand Name**       | **QUANTITY** |
 | ------------------------------------- | ------------------------ | ------------ |
 | ***Printed***                         |                          |              |
 | LEC_002_P_XX      | XX      | 2            |
 | LEC_002_P_XX     | XX      | 2            |
 | LEC_002_P_03_LEAFSPRING               | LEAFSPRING               | 4            |
-
-
-
-
-
-
-
-
 
 --------------
 ### 13.0 LID
