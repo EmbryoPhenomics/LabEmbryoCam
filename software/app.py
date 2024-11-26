@@ -93,7 +93,7 @@ def check_devices():
     ports = list_ports.grep('/dev/ttyACM*')
     names = [p.device for p in ports]
 
-    manual_control_port = None
+    led_port = None
     xyz_port = None
     
     for p in names:
@@ -107,12 +107,12 @@ def check_devices():
         else:
             port_type = queue.get()
             if 'light' in port_type:
-                manual_control_port = p
+                led_port = p
 
         queue.close()
 
-    print(manual_control_port, xyz_port)
-    return manual_control_port, xyz_port
+    print(led_port, xyz_port)
+    return led_port, xyz_port
 
 # Source: https://gist.github.com/IdeaKing/11cf5e146d23c5bb219ba3508cca89ec
 def resize_with_pad(image, new_shape, padding_color=(0,0,0)):
@@ -264,15 +264,17 @@ class ExperimentJobLog:
         df.to_csv(file)
 
 class RelativeXYZ:
-    def __init__(self):
+    def __init__(self, axis_limits):
         self.x = None
         self.y = None
         self.z = None
 
+        xl, yl, zl = axis_limits
+
         # Limits
-        self.x1, self.x2 = (22, 210)
-        self.y1, self.y2 = (0, 90)
-        self.z1, self.z2 = (0, 20)
+        self.x1, self.x2 = xl
+        self.y1, self.y2 = yl
+        self.z1, self.z2 = zl
 
     def start(self, x, y, z):
         self.x = x
@@ -294,15 +296,14 @@ class RelativeXYZ:
             
         print(self.x,self.y,self.z)
 
-relative = RelativeXYZ()
 
 picam2 = camera_backend_picamera2.Camera()
 
-manual_control_port, xyz_port = check_devices()
+led_port, xyz_port = check_devices()
 sensor_modes = picam2.get_sensor_modes()
 
 # Initiate serial connections
-manual_control_serial = serial.Serial(manual_control_port, 115200)
+led_serial = serial.Serial(led_port, 115200)
 xyz_serial = serial.Serial(xyz_port, 115200)
 
 camera_state = CameraState()
@@ -313,10 +314,12 @@ experimental_log = ExperimentJobLog()
 acquisition = Acquisition()
 stage = xyz.StageHardware(xyz_serial, None)
 coord_data = xyz.Coordinates()
-leds = leds.HardwareBrightness(manual_control_serial)
+leds = leds.HardwareBrightness(led_serial)
 loaded_camera_settings = CameraConfigLoad() 
 acquisition_state = AcquisitionState()
 user_input_store = UserInputStore()
+
+relative = RelativeXYZ(stage.get_axis_limits())
 
 server = Flask(__name__)
 app = dash.Dash(__name__, server=server, long_callback_manager=long_callback_manager, external_stylesheets=[dbc.themes.BOOTSTRAP, './assets/app.css', dbc.icons.FONT_AWESOME])
@@ -888,7 +891,6 @@ def acquisition_progress(n_intervals, timepoints, acq_num):
     manager=long_callback_manager,
     running=[
         (Output('home-xy-button', 'children'), [dbc.Spinner(size='sm'), ' Homing...'], 'Set Origin'),
-        (Output('home-xy-button', 'disabled'), True, False),
         (Output('left-diag-xy-up', 'disabled'), True, False),
         (Output('up-xy', 'disabled'), True, False),
         (Output('right-diag-xy-up', 'disabled'), True, False),
@@ -1244,27 +1246,56 @@ def generate_xy(n_clicks, data, size):
         else: 
             return 'Please set first position (A1).'
 
+
+class RemoveNClicks:
+    count = 0
+
 @app.callback(
     output=Output('remove-xy-callback', 'children'),
-    inputs=[Input('xy_coords', 'data')]
+    inputs=[Input('remove-xy-button', 'n_clicks')],
+    state=[
+        State('xy_coords', 'selected_rows'),
+        State('xy_coords', 'data')]
 )
-def remove_xy_list(session_data):
-    print('Session:')
-    print(session_data)
-    if session_data is not None:
-        if len(session_data):
-            session_data = pd.DataFrame(session_data).to_dict(orient='list')
+def remove_xy_list(n_clicks, selected_rows, session_data):
+    if n_clicks:
+        print('Clicked remove')
+        if n_clicks > RemoveNClicks.count:
+            print('Registered remove click ok')
+            if session_data is not None:
+                if len(session_data):
+                    print('Session data exists for remove')
+                    print(session_data)
+                    
+                    row_coords = session_data[selected_rows[0]]
+                    x_,y_,z_,l_ = row_coords.values()
+                    
+                    xs = []
+                    ys = []
+                    zs = []
+                    labels = []
+                    for c in session_data:
+                        x,y,z,l = c.values()
+                        
+                        if x == x_ and y == y_ and z == z_ and l == l_:
+                            continue
+                                                   
+                        xs.append(x)
+                        ys.append(y)
+                        zs.append(z)
+                        labels.append(l)
 
-            coord_data.xs = session_data['x']
-            coord_data.ys = session_data['y']
-            coord_data.zs = session_data['z']
-            coord_data.labels = session_data['label']
+                    coord_data.xs = xs
+                    coord_data.ys = ys
+                    coord_data.zs = zs
+                    coord_data.labels = labels
+                    
+                    RemoveNClicks.count += 1
 
-            return trigger
-        else:
-            return dash.no_update
+                    return trigger
     else:
         return dash.no_update
+
 
 @app.callback(
     output=Output('xy_coords', 'data'),

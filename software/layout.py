@@ -202,16 +202,25 @@ def app_layout(sensor_modes):
                                     html.Div(children=[
                                         dbc.Button('Current', id='grab-xy', size='lg'),
                                         html.Div(id='grab-xy-callback')
-                                    ], style={'width': '40', 'display': 'table-cell'}),
+                                    ], style={'width': '30%', 'display': 'table-cell'}),
 
                                     html.Div(children=[
                                         html.Br()
-                                    ], style={'width': '20', 'display': 'table-cell'}),
+                                    ], style={'width': '5%', 'display': 'table-cell'}),
 
                                     html.Div(children=[
                                         dbc.Button('Replace', id='replace-xy-button', size='lg'),
                                         html.Div(id='replace-xy-callback')
-                                    ], style={'width': '40%', 'display': 'table-cell'}),
+                                    ], style={'width': '30%', 'display': 'table-cell'}),
+
+                                    html.Div(children=[
+                                        html.Br()
+                                    ], style={'width': '5%', 'display': 'table-cell'}),
+
+                                    html.Div(children=[
+                                        dbc.Button('Remove', id='remove-xy-button', size='lg'),
+                                        html.Div(id='remove-xy-callback')
+                                    ], style={'width': '30%', 'display': 'table-cell'}),
 
                                     html.Div(children=[], style={'width': '80%', 'display': 'table-cell'}),
 
@@ -219,7 +228,6 @@ def app_layout(sensor_modes):
 
                                 html.Br(),
 
-                                html.Div(id='remove-xy-callback'),
                                 dash_table.DataTable(
                                     id='xy_coords',
                                     columns=[
@@ -231,7 +239,6 @@ def app_layout(sensor_modes):
                                     style_cell_conditional=[{'if': {'column_id': col},'width': '20%'} for col in ['x','y','z']],
                                     fixed_rows={'headers': True},
                                     style_table={'height': 300},
-                                    row_deletable=True,
                                     row_selectable='single',
                                     editable=True,
                                     page_size=300
