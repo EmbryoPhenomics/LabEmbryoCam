@@ -162,6 +162,39 @@ class StageHardware:
         self.xyz.write(str.encode('G28'+ '\n'))
         self.wait_until()
                     
+    def _get_axis_limits(self):
+        self.xyz.write(str.encode('M208'+ '\n'))
+        bts = self.xyz.inWaiting()
+        out = self.xyz.read(bts)
+
+        limits = re.findall(r'\d+\.\d+', out.decode()) # Extract limits
+        x_limits = limits[:2]
+        y_limits = limits[2:4]
+        z_limits = limits[4:]
+        return (x_limits, y_limits, z_limits)          
+
+    def get_axis_limits(self):
+        '''
+        Retrieve axis limits.
+        '''        
+        for i in range(10):
+            try:
+                x,y,z = self._get_axis_limits()
+            except Exception as e:
+                print(e)
+                continue
+
+            if not len(x) or not len(y) or not len(z):
+                continue
+            else:
+                if len(x) > 2 or len(y) > 2 or len(z) > 2:
+                    continue
+                else:
+                    break
+
+        return [(float(x1), float(x2)) for x1,x2 in [x,y,z]]
+        
+        
     def wait_until(self):
         '''
         Wait until stage is idle.
