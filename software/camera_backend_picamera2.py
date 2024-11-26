@@ -34,17 +34,8 @@ fontScale = 0.5
 fontColor = (255,255,255)
 lineType = 1
 
+
 class LiveOptFlow:
-    '''
-    Real-time optical flow visualisation
-
-    This is a real-time application for sparse optical flow, operating on the live
-    stream produced by the camera instance. 
-
-    Parameters for sparse optical flow are hardcoded in __init__ below but you
-    may need to change these depending on your application.
-
-    '''
     def __init__(self):
         self.feature_params = dict(
             maxCorners=500,
@@ -89,14 +80,14 @@ class LiveOptFlow:
             
             for (good_old, good_new, rot, diff) in self.point_log:
                 for old, new, r, d in zip(good_old, good_new, rot, diff):
-                    if math.sqrt(d[0]**2 + d[1]**2) < 0.25:
+                    if math.sqrt(d[0]**2 + d[1]**2) < 0.5:
                         continue
                     
                     old, new = map(tuple, (old, new))
 
-                    rot_line_color = (0, 255, 0)
-                    # if r > 0:
-                    #     rot_line_color = (0, 255, 255)
+                    rot_line_color = (0, 0, 255)
+                    if r > 0:
+                        rot_line_color = (0, 255, 255)
 
                     new = tuple(map(int, new))
                     old = tuple(map(int, old))
