@@ -336,7 +336,6 @@ trigger = ''
 
 with open('./app_config.json', 'r') as conf:
     app_conf = json.load(conf)
-    cam_type = app_conf['camera_platform']
     emails_on = app_conf['emails']
 
 email = emails.Emails()

@@ -22,6 +22,7 @@ from PIL import ImageTk, Image
 import subprocess
 import signal
 import prctl
+import json
 
 from picamera2.encoders import JpegEncoder
 from ffmpegoutput import FfmpegOutput
@@ -34,6 +35,9 @@ fontScale = 0.5
 fontColor = (255,255,255)
 lineType = 1
 
+with open('./app_config.json', 'r') as conf:
+    app_conf = json.load(conf)
+    lec_version = app_conf['LEC_version']
 
 class LiveOptFlow:
     def __init__(self):
@@ -157,7 +161,9 @@ def encode_func(self, request, name):
     if self.colour_space is None:
         self.colour_space = self.FORMAT_TABLE[request.config[name]["format"]]
     array = request.make_array(name)
-    array = np.ascontiguousarray(np.flip(array, axis=1))
+    if lec_version == 'V2':
+        array = np.flip(array, axis=1)
+    array = np.ascontiguousarray(array)
     return simplejpeg.encode_jpeg(array, quality=self.q, colorspace=self.colour_space,
                                   colorsubsampling=self.colour_subsampling)
 
@@ -236,7 +242,10 @@ class Camera:
             
             if counter % (fps // 5) == 0:
                 img = request.make_array("lores")
-                img = np.flip(img, axis=1)
+
+                if lec_version == 'V2':
+                    img = np.flip(img, axis=1)
+
                 img = Image.fromarray(img) 
                 im_viewer.show_frame(img)
 
@@ -266,8 +275,9 @@ class Camera:
             img = request.make_array("main")
             request.release()
 
-        img = np.flip(img, axis=1)
-        
+            if lec_version == 'V2':
+                img = np.flip(img, axis=1)
+    
         self.camera.stop()   
         return img
 
@@ -301,9 +311,10 @@ class LiveStream:
             img = request.make_array("lores") 
             request.release()
 
-            img = np.flip(img, axis=1)
-            img = Image.fromarray(img)
+            if lec_version == 'V2':
+                img = np.flip(img, axis=1)
 
+            img = Image.fromarray(img)
             im_viewer.show_frame(img)
 
             self.benchmark.record_frame_time()
@@ -350,7 +361,8 @@ class VideoGenerator:
             self.benchmark.record_frame_time()
             self.benchmark.record_complete()
 
-            img = np.flip(img, axis=1)
+            if lec_version == 'V2':
+                img = np.flip(img, axis=1)
 
             yield img
 
