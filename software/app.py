@@ -543,7 +543,10 @@ def update_well_number(data):
     return len(x)
 
 @app.callback(
-    output=Output('acquire-path-input', 'value'),
+    output=[
+        Output('acquire-path-input', 'value'),
+        Output('acquisition-folder-name-popup', 'is_open')
+    ],
     inputs=[Input('path-select', 'n_clicks')]
 )
 def get_acq_path(n_clicks):
@@ -554,9 +557,13 @@ def get_acq_path(n_clicks):
             title='Select an acquisition folder',
             okbuttontext='Open')
         root.destroy()
-        return folder_selected
+
+        if " " in folder_selected:
+            return dash.no_update, True
+
+        return folder_selected, False
     else:
-        return dash.no_update
+        return dash.no_update, False
 
 # @app.callback(
 #     output=Output('drive-select', 'options'),

@@ -363,6 +363,14 @@ def app_layout(sensor_modes):
                                 dbc.Modal(
                                     [
                                         dbc.ModalHeader(dbc.ModalTitle("Acquisition Error")),
+                                        dbc.ModalBody("Cannot save files due to a space in your folder path. Please make sure there are no spaces in your folder name."),
+                                    ],
+                                    id="acquisition-folder-name-popup",
+                                    is_open=False,
+                                ),
+                                dbc.Modal(
+                                    [
+                                        dbc.ModalHeader(dbc.ModalTitle("Acquisition Error")),
                                         dbc.ModalBody("Please cancel the live stream before starting an acquisition."),
                                     ],
                                     id="acquisition-live-stream-popup",
