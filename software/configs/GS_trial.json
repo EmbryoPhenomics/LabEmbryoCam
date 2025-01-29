@@ -1,0 +1,28 @@
+{
+    "camera_settings": {
+        "exposure": 30000,
+        "framerate": 30,
+        "width": 1456,
+        "height": 1088
+    },
+    "positions": {
+        "x_coordinates": [
+            143
+        ],
+        "y_coordinates": [
+            19.5
+        ],
+        "z_coordinates": [
+            0.71
+        ],
+        "labels": [
+            "Pos1"
+        ]
+    },
+    "experiment_settings": {
+        "timepoints": 1,
+        "interval": 1,
+        "capture_length": 1,
+        "output_path": null
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "camera_settings": {
+        "exposure": 20000,
+        "framerate": 30,
+        "width": 1332,
+        "height": 990,
+        "sensor_mode_ind": 0,
+        "analogue_gain": 0
+    },
+    "positions": {
+        "x_coordinates": [
+            166,
+            148
+        ],
+        "y_coordinates": [
+            10,
+            10
+        ],
+        "z_coordinates": [
+            0,
+            0
+        ],
+        "labels": [
+            "Pos1",
+            "Pos2"
+        ]
+    },
+    "experiment_settings": {
+        "timepoints": 1,
+        "interval": 1,
+        "capture_length": 1,
+        "output_path": "/home/pi"
+    }
+}
